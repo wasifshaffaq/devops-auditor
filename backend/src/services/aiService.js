@@ -8,17 +8,18 @@ const analyzeDevOps = async (files) => {
     }
 
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const model = genAI.getGenerativeModel({ 
+            model: "gemini-2.5-flash",
+            generationConfig: { responseMimeType: "application/json" }
+        });
 
         const prompt = `
-        You are a Senior DevOps Security Auditor. I will provide you with the content of several configuration files from a repository.
-        Your task is to:
-        1. Identify security vulnerabilities (e.g., hardcoded secrets, root users in Docker, open ports).
-        2. Identify infrastructure best practice violations (e.g., missing resource limits, insecure terraform providers).
-        3. Provide a brief "Senior Engineer" summary of the overall architecture.
-        4. Give a "Score" from 1-10.
+        You are a Senior DevOps Security Auditor. Analyze these configuration files.
+        Identify security vulnerabilities, infrastructure best practices, and provide a summary with a score (1-10).
 
-        Format your response as a JSON object with the following structure:
+        IMPORTANT: Your response must be a valid JSON object. Do not include any text before or after the JSON.
+
+        Required JSON Structure:
         {
             "summary": "overall summary",
             "score": 8,
@@ -27,21 +28,18 @@ const analyzeDevOps = async (files) => {
             "infrastructure": [{ "type": "S3/EC2/Docker", "name": "resource-name", "status": "predicted" }]
         }
 
-        Files:
+        Files to analyze:
         ${files.map(f => `File: ${f.path}\nContent:\n${f.content}\n---`).join('\n')}
         `;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        const text = response.text();
+        let text = response.text();
         
-        // Extract JSON from the response (sometimes Gemini wraps it in ```json ... ```)
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            return JSON.parse(jsonMatch[0]);
-        }
+        // Final cleanup just in case there are markdown markers
+        text = text.replace(/```json\n?/, '').replace(/\n?```/, '').trim();
         
-        throw new Error("Failed to parse AI response into JSON.");
+        return JSON.parse(text);
     } catch (error) {
         console.error('Error in AI Analysis:', error.message);
         throw new Error('AI Analysis failed: ' + error.message);
