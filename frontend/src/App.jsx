@@ -114,10 +114,20 @@ function App() {
                     </h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {auditData.infrastructure.map((resource, i) => (
-                        <div key={i} className="bg-black/40 p-3 rounded-xl border border-gray-800">
-                          <p className="text-[10px] text-gray-500 uppercase font-bold">{resource.type}</p>
-                          <p className="text-sm font-medium text-gray-200 truncate">{resource.name}</p>
-                          <p className="text-[10px] text-blue-500 mt-1">Status: {resource.status}</p>
+                        <div key={i} className="bg-black/40 p-3 rounded-xl border border-gray-800 flex flex-col justify-between">
+                          <div>
+                            <p className="text-[10px] text-gray-500 uppercase font-bold">{resource.type}</p>
+                            <p className="text-sm font-medium text-gray-200 truncate mb-2">{resource.name}</p>
+                          </div>
+                          <p className={`text-[10px] font-bold px-2 py-0.5 rounded-full w-fit ${
+                            resource.status.toLowerCase().includes('risk') || resource.status.toLowerCase().includes('missing')
+                              ? 'bg-red-500/10 text-red-500 border border-red-500/20'
+                              : resource.status.toLowerCase().includes('optimized') || resource.status.toLowerCase().includes('ready')
+                              ? 'bg-green-500/10 text-green-500 border border-green-500/20'
+                              : 'bg-blue-500/10 text-blue-500 border border-blue-500/20'
+                          }`}>
+                            {resource.status}
+                          </p>
                         </div>
                       ))}
                     </div>

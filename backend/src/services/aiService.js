@@ -19,14 +19,15 @@ const analyzeDevOps = async (files) => {
 
         IMPORTANT: Your response must be a valid JSON object. Do not include any text before or after the JSON.
 
-        Required JSON Structure:
+        Format your response as a JSON object with the following structure:
         {
             "summary": "overall summary",
             "score": 8,
             "vulnerabilities": [{ "file": "path", "issue": "description", "severity": "high/med/low" }],
             "recommendations": ["list of improvements"],
-            "infrastructure": [{ "type": "S3/EC2/Docker", "name": "resource-name", "status": "predicted" }]
+            "infrastructure": [{ "type": "S3/EC2/Docker", "name": "resource-name", "status": "Brief insight (e.g., 'Optimized', 'Risk', 'Needs Limits', 'Production Ready')" }]
         }
+
 
         Files to analyze:
         ${files.map(f => `File: ${f.path}\nContent:\n${f.content}\n---`).join('\n')}
