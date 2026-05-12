@@ -135,7 +135,7 @@ function App() {
                       </span>
                     )}
                   </div>
-                  <p className="text-gray-300 leading-relaxed">{auditData.summary}</p>
+                  <p className="text-gray-300 leading-relaxed break-words">{auditData.summary}</p>
                 </section>
 
                 <section className="bg-gray-900/50 border border-gray-800 p-6 rounded-2xl">
@@ -169,13 +169,13 @@ function App() {
                   <div className="text-6xl font-black text-primary">{auditData.score}<span className="text-2xl text-gray-600">/10</span></div>
                 </section>
 
-                <section className="bg-gray-900/50 border border-gray-800 p-6 rounded-2xl">
+                <section className="bg-gray-900/50 border border-gray-800 p-6 rounded-2xl overflow-hidden">
                   <h2 className="text-lg font-bold mb-4">Key Recommendations</h2>
                   <ul className="space-y-3">
                     {auditData.recommendations.map((rec, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
+                      <li key={i} className="flex items-start gap-2 text-sm text-gray-300 break-words overflow-hidden">
                         <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0"></div>
-                        {rec}
+                        <span className="flex-1">{rec}</span>
                       </li>
                     ))}
                   </ul>
