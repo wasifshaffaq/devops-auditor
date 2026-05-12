@@ -9,7 +9,11 @@ const PORT = process.env.PORT || 5000;
 
 const { runAudit } = require('./src/controllers/auditController');
 
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 app.get('/health', (req, res) => {
