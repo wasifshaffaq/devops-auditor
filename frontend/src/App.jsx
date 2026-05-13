@@ -92,7 +92,7 @@ function App() {
         </motion.div>
         
         <div className="flex items-center gap-4">
-          <a href="https://github.com" target="_blank" className="p-2 text-gray-500 hover:text-primary transition-colors">
+          <a href="https://github.com/wasifshaffaq/devops-polyglot-auditor" target="_blank" rel="noreferrer" className="p-2 text-gray-500 hover:text-primary transition-colors">
             <svg
               viewBox="0 0 24 24"
               width="20"

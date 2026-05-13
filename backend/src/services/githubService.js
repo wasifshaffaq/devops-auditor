@@ -26,17 +26,28 @@ const fetchRepoFiles = async (repoUrl) => {
         const treeUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${defaultBranch}?recursive=1`;
         const response = await axios.get(treeUrl, axiosConfig);
         
-        const filesToAudit = response.data.tree.filter(file => {
-            const path = file.path.toLowerCase();
-            return (path.includes('dockerfile') || 
-                   path.endsWith('.tf') || 
-                   path.includes('jenkinsfile') || 
-                   path.includes('.yml') || 
-                   path.includes('.yaml') || 
-                   path === 'package.json') && file.type === 'blob';
-        });
+        // Filter and prioritize
+        const filesToAudit = response.data.tree
+            .filter(file => {
+                const path = file.path.toLowerCase();
+                // Ignore node_modules entirely
+                if (path.includes('node_modules/')) return false;
 
-        // Limit to top 15 files
+                return (path.includes('dockerfile') || 
+                       path.endsWith('.tf') || 
+                       path.includes('jenkinsfile') || 
+                       path.includes('.yml') || 
+                       path.includes('.yaml') || 
+                       path === 'package.json') && file.type === 'blob';
+            })
+            .sort((a, b) => {
+                // Prioritize root level files (fewer slashes in path)
+                const depthA = (a.path.match(/\//g) || []).length;
+                const depthB = (b.path.match(/\//g) || []).length;
+                return depthA - depthB;
+            });
+
+        // Limit to top 15 prioritized files
         const topFiles = filesToAudit.slice(0, 15);
 
         const fileContents = await Promise.all(topFiles.map(async (file) => {
