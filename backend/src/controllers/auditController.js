@@ -26,6 +26,12 @@ const runAudit = async (req, res) => {
         // 2. Fetch specific files for AI (Fast context)
         const files = await fetchRepoFiles(repoUrl);
         
+        if (files.length === 0) {
+            return res.status(404).json({ 
+                error: 'No DevOps files (Dockerfile, YAML, Terraform, etc.) were detected in this repository. Our auditor needs configuration files to perform a review.' 
+            });
+        }
+
         // 3. Run AI Analysis & Trivy Scan in Parallel
         console.log("Running AI and Docker scans...");
         const [aiAnalysis, trivyRaw] = await Promise.all([
