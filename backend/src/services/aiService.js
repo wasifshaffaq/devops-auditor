@@ -8,8 +8,8 @@ const analyzeDevOps = async (files) => {
     }
 
     try {
-        const model = genAI.getGenerativeModel({ 
-            model: "gemini-2.5-flash",
+        const model = genAI.getGenerativeModel({
+            model: "gemini-1.5-flash",
             generationConfig: { responseMimeType: "application/json" }
         });
 
@@ -36,15 +36,19 @@ const analyzeDevOps = async (files) => {
         const result = await model.generateContent(prompt);
         const response = await result.response;
         let text = response.text();
-        
+
         // Final cleanup just in case there are markdown markers
         text = text.replace(/```json\n?/, '').replace(/\n?```/, '').trim();
-        
-        return JSON.parse(text);
+
+        try {
+            return JSON.parse(text);
+        } catch (parseError) {
+            console.error('AI Response Parsing Failed. Raw Text:', text);
+            throw new Error('Failed to parse AI response into JSON. The model might have returned an invalid format.');
+        }
     } catch (error) {
         console.error('Error in AI Analysis:', error.message);
         throw new Error('AI Analysis failed: ' + error.message);
-    }
-};
+    }};
 
 module.exports = { analyzeDevOps };
