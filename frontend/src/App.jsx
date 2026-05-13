@@ -49,7 +49,7 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground p-8 flex flex-col items-center">
       <header className="max-w-4xl w-full text-center mb-12">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent mb-4">
+        <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent pb-4 leading-normal">
           DevOps Polyglot Auditor
         </h1>
         <p className="text-gray-400 text-lg">
