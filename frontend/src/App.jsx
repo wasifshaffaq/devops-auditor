@@ -260,8 +260,8 @@ function App() {
                  </ul>
               </div>
 
-              <div className="col-span-12 mt-4">
-                <h2 className="text-3xl font-black mb-8 px-4 flex items-center gap-4 italic underline decoration-red-500 decoration-8 underline-offset-4">CRITICAL FINDINGS</h2>
+              <div className="col-span-12 mt-8">
+                <h2 className="text-3xl font-black mb-8 px-4 flex items-center gap-4 tracking-tight">CRITICAL FINDINGS</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {auditData.vulnerabilities.map((v, i) => (
                     <div key={i} className="p-6 rounded-[2rem] glass dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-start gap-6 relative overflow-hidden shadow-lg">
