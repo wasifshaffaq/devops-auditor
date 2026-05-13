@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Search, Shield, Cpu, Activity, CheckCircle, AlertCircle, Loader2, Sun, Moon, ArrowRight, Github } from 'lucide-react';
+import { Search, Shield, Cpu, Activity, CheckCircle, AlertCircle, Loader2, Sun, Moon, ArrowRight, GithubIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
@@ -93,7 +93,7 @@ function App() {
         
         <div className="flex items-center gap-4">
           <a href="https://github.com" target="_blank" className="p-2 text-gray-500 hover:text-primary transition-colors">
-            <Github size={20} />
+            <GithubIcon size={20} />
           </a>
           <button
             onClick={() => setIsDark(!isDark)}
