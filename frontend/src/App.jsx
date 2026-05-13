@@ -188,7 +188,7 @@ function App() {
 
       <main className="relative z-10 max-w-6xl mx-auto px-8 pt-12 pb-24 text-center">
         <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-6 leading-[1.1]">
-           <span className="dark:text-white">Audit Infra</span><br/><span className="text-primary italic">With AI</span>
+           <span className="dark:text-white">AI DevOps</span><br/><span className="text-primary italic">Auditor</span>
         </h1>
 
         <form onSubmit={runAudit} className="mt-12 max-w-3xl mx-auto relative group">
