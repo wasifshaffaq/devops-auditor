@@ -11,12 +11,19 @@ An **Ultra-Aesthetic**, AI-powered Infrastructure & Code Security Auditor. This 
 
 ---
 
-## 💎 Ultra-Aesthetics Overhaul
+## 💎 Premium Features & Aesthetics
 The project features a **Silicon Valley-grade UI** designed for maximum visual impact and professional clarity:
+
+### 🎨 Visual Overhaul
 - **Glassmorphism:** Frosted glass components with `backdrop-blur` and dynamic borders.
 - **Bento Grid:** Apple-inspired asymmetric layout for structured data visualization.
 - **Animated Environment:** Interactive background blobs and a technical grid overlay.
 - **Dual-Mode HUD:** Seamless Light/Dark mode transitions with persistent user preferences.
+
+### ⚙️ Advanced Functionality
+- **💻 Live Execution Terminal:** A real-time log stream that mirrors professional CI/CD output, showing every step from cloning to AI analysis.
+- **🕒 Audit History:** A persistent sidebar (localStorage) to track and re-run your last 5 audits instantly.
+- **📄 Professional PDF Export:** Generate and download high-quality audit reports with a single click.
 
 ---
 
@@ -28,13 +35,13 @@ This tool is a fusion of three major DevOps concepts:
 | Concept | Implementation in Polyglot Auditor |
 | :--- | :--- |
 | **Online Judge** | Uses **Docker Sandboxing** to run `Trivy` scans on submitted code. |
-| **CI/CD Simulator** | Features a **Visual Pipeline HUD** (Fetching → AI Logic → Security). |
+| **CI/CD Simulator** | Features a **Visual Pipeline HUD** & **Live Terminal** logs. |
 | **Cloud Manager** | Uses AI to generate an **Infrastructure Preview** (S3, EC2, Docker). |
 
 ### The Stack
 | Tier | Technology |
 | :--- | :--- |
-| **Frontend** | React 19, Tailwind CSS v3, Framer Motion, Lucide Icons |
+| **Frontend** | React 19, Tailwind CSS v3, Framer Motion, Lucide Icons, jsPDF |
 | **Backend** | Node.js, Express, Simple-Git, Child Process Orchestration |
 | **AI Engine** | Google Gemini 2.5 Flash (JSON Output Mode) |
 | **DevOps** | Docker, Trivy Security Scanner, GitHub REST API |
@@ -51,6 +58,7 @@ graph TD
     B -- "Cloud (No Docker)" --> D[Cloud Mode: Deep AI Security Analysis]
     C --> E[Merged Final Report]
     D --> E[Merged Final Report]
+    E --> F[Generate PDF / Save to History]
 ```
 
 ---
@@ -87,6 +95,7 @@ graph TD
 - **Asynchronous Orchestration:** Handles parallel execution of AI logic and Docker processes without blocking.
 - **Logic Prioritization:** Custom file-depth sorting ensures the AI focuses on root configurations (`package.json`, `Dockerfile`) first.
 - **Zero-Budget Deployment:** Engineered to run on free-tier cloud infrastructure through intelligent feature fallbacks.
+- **Document Generation:** Client-side PDF generation demonstrates utility-focused engineering.
 
 ---
 Developed by **Wasif Shaffaq** | *DevOps & AI Enthusiast*
