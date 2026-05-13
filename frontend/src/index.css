@@ -2,12 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  background-color: #0a0a0a;
-  color: #ededed;
-}
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 10 10 10;
+  }
 
-body {
-  margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  .dark {
+    --background: 10 10 10;
+    --foreground: 237 237 237;
+  }
+
+  body {
+    @apply transition-colors duration-300;
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
 }
