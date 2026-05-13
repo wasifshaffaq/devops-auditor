@@ -11,10 +11,17 @@ function App() {
   const [auditData, setAuditData] = useState(null);
   const [error, setError] = useState(null);
   const [stage, setStage] = useState(0); 
+  const [logs, setLogs] = useState([]);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => {
     const saved = localStorage.getItem('theme');
     return saved ? saved === 'dark' : true;
   });
+
+  const addLog = (message, type = 'info') => {
+    const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    setLogs(prev => [...prev, { timestamp, message, type }]);
+  };
 
   useEffect(() => {
     if (isDark) {
@@ -34,14 +41,36 @@ function App() {
     setError(null);
     setAuditData(null);
     setStage(1);
+    setLogs([]);
+    setIsTerminalOpen(true);
+
+    addLog(`Initiating audit for: ${repoUrl}`, 'info');
+    addLog('Cloning repository into temporary container memory...', 'process');
 
     try {
-      setTimeout(() => setStage(2), 2000);
+      setTimeout(() => {
+        setStage(2);
+        addLog('Primary files identified. Routing to AI Engine...', 'info');
+        addLog('Gemini 2.5 Flash: analyzing architectural logic...', 'process');
+      }, 2000);
+
       const response = await axios.post(`${API_BASE_URL}/api/audit`, { repoUrl });
+      
+      addLog('Security check initiated...', 'info');
+      if (response.data.analysis.mode === 'Cloud-Limited') {
+        addLog('Environment: Cloud Tier. Executing Deep AI Security Scan.', 'warn');
+      } else {
+        addLog('Environment: Local Engine. Orchestrating Docker (Trivy).', 'process');
+      }
+
+      addLog('Analysis successful. Synthesizing report.', 'info');
       setAuditData(response.data.analysis);
       setStage(3);
+      addLog('Process complete. Terminal standby.', 'success');
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to connect to backend. Ensure the server is running.');
+      const errMsg = err.response?.data?.error || 'Network error: Backend unreachable.';
+      setError(errMsg);
+      addLog(`FATAL ERROR: ${errMsg}`, 'error');
       setStage(0);
     } finally {
       setLoading(false);
@@ -306,8 +335,50 @@ function App() {
         </AnimatePresence>
       </main>
 
+      {/* Terminal Drawer */}
+      <div className={`fixed bottom-0 left-0 w-full z-50 transition-all duration-500 ${isTerminalOpen ? 'h-[30vh]' : 'h-10'}`}>
+        <button 
+          onClick={() => setIsTerminalOpen(!isTerminalOpen)}
+          className="w-full h-10 bg-gray-900 dark:bg-gray-800 border-t border-gray-800 dark:border-white/10 flex items-center justify-between px-6 hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors"
+        >
+          <div className="flex items-center gap-2">
+            <Activity size={14} className={loading ? 'animate-pulse text-primary' : 'text-gray-400'} />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Execution Terminal</span>
+          </div>
+          <ArrowRight size={16} className={`text-gray-500 transition-transform duration-300 ${isTerminalOpen ? 'rotate-90' : '-rotate-90'}`} />
+        </button>
+        
+        <div className="h-full bg-black/95 backdrop-blur-2xl p-6 overflow-y-auto font-mono text-xs border-t border-white/5 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+          <div className="max-w-6xl mx-auto space-y-2">
+            {logs.length === 0 && <p className="text-gray-600 italic">No execution data. Run an audit to begin monitoring...</p>}
+            {logs.map((log, i) => (
+              <div key={i} className="flex gap-4 animate-in fade-in slide-in-from-left-2 duration-300">
+                <span className="text-gray-600 shrink-0">[{log.timestamp}]</span>
+                <span className={`font-black shrink-0 ${
+                  log.type === 'error' ? 'text-red-500' : 
+                  log.type === 'success' ? 'text-green-500' : 
+                  log.type === 'process' ? 'text-primary' : 
+                  log.type === 'warn' ? 'text-yellow-500' :
+                  'text-gray-400'
+                }`}>
+                  {log.type.toUpperCase()}:
+                </span>
+                <span className="text-gray-300 flex-1">{log.message}</span>
+              </div>
+            ))}
+            {loading && (
+              <div className="flex gap-4 animate-pulse">
+                <span className="text-gray-600">--:--:--</span>
+                <span className="text-primary font-black">WAITING:</span>
+                <span className="text-gray-500">Awaiting kernel response...</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Footer */}
-      <footer className="relative z-10 border-t border-gray-100 dark:border-white/5 py-12 text-center">
+      <footer className="relative z-10 border-t border-gray-100 dark:border-white/5 py-12 text-center pb-24">
         <p className="text-xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.5em]">
           Automated Security Intelligence v2.0
         </p>
