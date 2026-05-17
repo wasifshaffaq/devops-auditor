@@ -3,36 +3,37 @@ const path = require('path');
 const fs = require('fs');
 
 /**
- * Runs a Trivy security scan on a local directory using Docker.
+ * Runs a Trivy security scan on a local directory.
+ * Optimized for Cloud/Container usage by calling the 'trivy' binary directly.
+ * 
  * @param {string} repoPath Absolute path to the cloned repository.
  * @returns {Promise<Object>} Structured vulnerability report.
  */
 const runTrivyScan = (repoPath, onLog = () => {}) => {
     return new Promise((resolve, reject) => {
-        // Check if docker exists first
-        onLog('Checking for Docker environment...', 'process');
-        exec('docker -v', (err) => {
+        // Step 1: Check if the 'trivy' binary is available in the environment
+        // This works in our Docker container and local machines with Trivy installed.
+        onLog('Verifying Trivy binary availability...', 'process');
+        
+        exec('trivy --version', (err) => {
             if (err) {
-                onLog('Docker not detected. Falling back to Cloud Mode (AI Analysis only).', 'warn');
-                return resolve({ Results: [], status: 'DOCKER_NOT_AVAILABLE' });
+                onLog('Trivy binary not found. Falling back to Heuristic AI Mode.', 'warn');
+                return resolve({ Results: [], status: 'TRIVY_NOT_FOUND' });
             }
 
-            const command = `docker run --rm -v "${repoPath}:/root/code" aquasec/trivy repo --format json --quiet /root/code`;
+            // Step 2: Execute scan using the local binary (much faster than docker-in-docker)
+            const command = `trivy repo --format json --quiet "${repoPath}"`;
             
-            onLog('Docker detected. Initiating Trivy security scan...', 'process');
+            onLog('Trivy binary active. Initiating deterministic security scan...', 'process');
 
-            exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
+            exec(command, { maxBuffer: 1024 * 1024 * 20 }, (error, stdout, stderr) => {
                 if (error) {
-                    if (error.message.includes('failed to connect') || error.message.includes('daemon is running')) {
-                        onLog('Docker daemon unreachable. Falling back to Cloud Mode.', 'warn');
-                        return resolve({ Results: [], status: 'DOCKER_NOT_AVAILABLE' });
-                    }
-                    onLog(`Trivy Execution Error: ${error.message}`, 'error');
+                    onLog(`Trivy Analysis Interrupted: ${error.message}`, 'error');
                     return resolve({ Results: [], status: 'TRIVY_ERROR' });
                 }
 
                 try {
-                    onLog('Parsing Trivy security report...', 'process');
+                    onLog('Decoding Trivy security manifest...', 'process');
                     const report = JSON.parse(stdout);
                     resolve({ ...report, status: 'SUCCESS' });
                 } catch (parseError) {
@@ -56,8 +57,8 @@ const formatTrivyResults = (trivyReport) => {
             result.Vulnerabilities.forEach(vuln => {
                 simplified.push({
                     file: result.Target,
-                    issue: `${vuln.PkgName}: ${vuln.Title || vuln.Description.slice(0, 100)}...`,
-                    severity: vuln.Severity.toLowerCase(),
+                    issue: `${vuln.PkgName}: ${vuln.Title || (vuln.Description ? vuln.Description.slice(0, 100) : 'No description available')}...`,
+                    severity: (vuln.Severity || 'medium').toLowerCase(),
                     source: 'Trivy Scanner'
                 });
             });

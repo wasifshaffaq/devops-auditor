@@ -1,0 +1,40 @@
+services:
+  # 1. The Engine (Backend)
+  - type: web
+    name: auditor-engine
+    env: docker
+    dockerContext: backend
+    dockerfilePath: backend/Dockerfile
+    plan: free
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false # Set manually in Render dashboard
+      - key: PORT
+        value: 5001
+
+  # 2. The Marketing Gateway (Landing Page)
+  - type: web
+    name: auditor-gateway
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    rootDir: landing
+    envVars:
+      - key: NODE_VERSION
+        value: 20.0.0
+
+  # 3. The Engineering HUD (Frontend)
+  - type: web
+    name: auditor-hud
+    env: static
+    plan: free
+    buildCommand: npm install && npm run build
+    publishDir: frontend/dist
+    rootDir: frontend
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: auditor-engine
+          type: web
+          property: host
