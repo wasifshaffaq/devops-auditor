@@ -197,7 +197,7 @@ const doc = new Document({
                     ]
                 }),
                 createSubHeader("Description"),
-                createParagraph("DevOps Polyglot Auditor is a full-stack web application designed for comprehensive codebase security and quality assessment. It features a modern, 'Silicon Valley-grade' UI with glassmorphism and bento-grid layouts on the frontend. The backend orchestrates asynchronous analysis, uniquely combining Google Gemini 1.5 Flash for deep architectural code reviews with actual Dockerized Trivy vulnerability scans. This tool brings enterprise-grade DevOps auditing capabilities to developers through a seamless, highly aesthetic interface."),
+                createParagraph("DevOps Polyglot Auditor is a full-stack web application designed for comprehensive codebase security and quality assessment. It features a modern, 'Silicon Valley-grade' UI with glassmorphism and bento-grid layouts on the frontend. The backend orchestrates asynchronous analysis, uniquely combining Google Gemini 2.5 Flash for deep architectural code reviews with actual Dockerized Trivy vulnerability scans. This tool brings enterprise-grade DevOps auditing capabilities to developers through a seamless, highly aesthetic interface."),
 
                 createHeader("2. Objectives and Goals"),
                 createParagraph("1. Provide Automated Security Audits — Deliver instant, deep insights into infrastructure-as-code and application vulnerabilities."),
@@ -252,11 +252,11 @@ const doc = new Document({
                 createParagraph("DevOps Polyglot Auditor resolves these issues through a high-performance, asynchronous pipeline:"),
                 createParagraph("Layer 1 — Visually Striking Frontend: React 19 + Tailwind CSS powers a Bento Grid layout, providing real-time log feedback and polished results visualization."),
                 createParagraph("Layer 2 — Orchestration Engine: An Express Node.js backend clones repositories and orchestrates parallel child processes for analysis."),
-                createParagraph("Layer 3 — Hybrid Analysis Core: Integrates Gemini 1.5 Flash for contextual architecture reviews and Dockerized Trivy for CVE identification, merging both into a definitive JSON report."),
+                createParagraph("Layer 3 — Hybrid Analysis Core: Integrates Gemini 2.5 Flash for contextual architecture reviews and Dockerized Trivy for CVE identification, merging both into a definitive JSON report."),
 
                 createHeader("6. Features"),
                 createSubHeader("6.1 F1 — AI-Driven Security Analysis"),
-                createBullet("Deep codebase architectural reviews utilizing Google Gemini 1.5 Flash."),
+                createBullet("Deep codebase architectural reviews utilizing Google Gemini 2.5 Flash."),
                 createBullet("Context-aware identification of anti-patterns and infrastructure misconfigurations."),
                 createBullet("Enforced JSON output schema for deterministic frontend rendering."),
                 createSubHeader("6.2 F2 — Real-World Container Scanning"),
@@ -365,7 +365,7 @@ const doc = new Document({
                         ]}),
                         new TableRow({ children: [
                             new TableCell({ children: [new Paragraph({text: "AI Engine", run: { color: PRIMARY_BLUE, size: 24 }})] }),
-                            new TableCell({ children: [new Paragraph({text: "Gemini 1.5 Flash", run: { size: 24 }})] }),
+                            new TableCell({ children: [new Paragraph({text: "Gemini 2.5 Flash", run: { size: 24 }})] }),
                             new TableCell({ children: [new Paragraph({text: "Architectural context analysis", run: { size: 24 }})] })
                         ]}),
                         new TableRow({ children: [

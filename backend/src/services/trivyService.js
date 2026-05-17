@@ -7,31 +7,37 @@ const fs = require('fs');
  * @param {string} repoPath Absolute path to the cloned repository.
  * @returns {Promise<Object>} Structured vulnerability report.
  */
-const runTrivyScan = (repoPath) => {
+const runTrivyScan = (repoPath, onLog = () => {}) => {
     return new Promise((resolve, reject) => {
         // Check if docker exists first
+        onLog('Checking for Docker environment...', 'process');
         exec('docker -v', (err) => {
             if (err) {
-                console.log("Docker not detected. Falling back to AI-only scan.");
+                onLog('Docker not detected. Falling back to Cloud Mode (AI Analysis only).', 'warn');
                 return resolve({ Results: [], status: 'DOCKER_NOT_AVAILABLE' });
             }
 
             const command = `docker run --rm -v "${repoPath}:/root/code" aquasec/trivy repo --format json --quiet /root/code`;
             
-            console.log(`Running Trivy scan on: ${repoPath}`);
+            onLog('Docker detected. Initiating Trivy security scan...', 'process');
 
-            exec(command, { maxBuffer: 1024 * 1024 * 5 }, (error, stdout, stderr) => {
+            exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
                 if (error) {
-                    console.error(`Trivy Execution Error: ${error.message}`);
-                    return resolve({ Results: [] });
+                    if (error.message.includes('failed to connect') || error.message.includes('daemon is running')) {
+                        onLog('Docker daemon unreachable. Falling back to Cloud Mode.', 'warn');
+                        return resolve({ Results: [], status: 'DOCKER_NOT_AVAILABLE' });
+                    }
+                    onLog(`Trivy Execution Error: ${error.message}`, 'error');
+                    return resolve({ Results: [], status: 'TRIVY_ERROR' });
                 }
 
                 try {
+                    onLog('Parsing Trivy security report...', 'process');
                     const report = JSON.parse(stdout);
-                    resolve(report);
+                    resolve({ ...report, status: 'SUCCESS' });
                 } catch (parseError) {
-                    console.error(`Failed to parse Trivy output: ${parseError.message}`);
-                    resolve({ Results: [] });
+                    onLog(`Failed to parse Trivy output: ${parseError.message}`, 'error');
+                    resolve({ Results: [], status: 'PARSE_ERROR' });
                 }
             });
         });

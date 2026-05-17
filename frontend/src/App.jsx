@@ -18,6 +18,9 @@ function App() {
   const [logs, setLogs] = useState([]);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [isHistoryOpen, setIsTerminalHistoryOpen] = useState(false);
+  const [terminalHeight, setTerminalHeight] = useState(300);
+  const [isResizing, setIsResizing] = useState(false);
+  
   const [history, setHistory] = useState(() => {
     const saved = localStorage.getItem('audit_history');
     return saved ? JSON.parse(saved) : [];
@@ -41,6 +44,32 @@ function App() {
     }
   }, [isDark]);
 
+  // Resizer logic
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isResizing) return;
+      const newHeight = window.innerHeight - e.clientY;
+      if (newHeight > 40 && newHeight < window.innerHeight * 0.8) {
+        setTerminalHeight(newHeight);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+      document.body.style.cursor = 'default';
+    };
+
+    if (isResizing) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isResizing]);
+
   const addLog = (message, type = 'info') => {
     const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
     setLogs(prev => [...prev, { timestamp, message, type }]);
@@ -48,7 +77,7 @@ function App() {
 
   const runAudit = async (e, customUrl = null) => {
     if (e) e.preventDefault();
-    const targetUrl = customUrl || repoUrl;
+    const targetUrl = (customUrl || repoUrl).trim();
     if (!targetUrl) return;
 
     setLoading(true);
@@ -58,26 +87,65 @@ function App() {
     setLogs([]);
     setIsTerminalOpen(true);
 
-    addLog(`Initiating audit for: ${targetUrl}`, 'info');
-    addLog('Cloning repository into temporary container memory...', 'process');
-
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/audit`, { repoUrl: targetUrl });
-      
-      addLog('Security check complete.', 'info');
-      
-      const newAudit = {
-        url: targetUrl,
-        date: new Date().toLocaleDateString(),
-        data: response.data.analysis
-      };
+      const response = await fetch(`${API_BASE_URL}/api/audit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ repoUrl: targetUrl })
+      });
 
-      setAuditData(response.data.analysis);
-      setHistory(prev => [newAudit, ...prev.filter(h => h.url !== targetUrl)].slice(0, 5));
-      setStage(3);
-      addLog('Process complete. Report generated.', 'success');
+      if (!response.ok) throw new Error('Backend unreachable or error occurred.');
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n\n');
+        buffer = lines.pop(); // Keep the last partial line in buffer
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const { type, message, data } = JSON.parse(line.replace('data: ', ''));
+              
+              if (type === 'error') {
+                setError(message);
+                addLog(message, 'error');
+                setStage(0);
+                setLoading(false);
+                return;
+              }
+
+              addLog(message, type);
+
+              // Update Stages based on log messages
+              if (message.includes('Cloning')) setStage(1);
+              if (message.includes('Orchestrating parallel')) setStage(2);
+              if (message.includes('Audit complete')) {
+                setStage(3);
+                setAuditData(data);
+                const newAudit = {
+                  url: targetUrl,
+                  date: new Date().toLocaleDateString(),
+                  data: data
+                };
+                setHistory(prev => [newAudit, ...prev.filter(h => h.url !== targetUrl)].slice(0, 5));
+              }
+
+            } catch (e) {
+              console.error('Error parsing stream chunk:', e);
+            }
+          }
+        }
+      }
+
     } catch (err) {
-      const errMsg = err.response?.data?.error || 'Network error: Backend unreachable.';
+      const errMsg = err.message || 'Network error: Backend unreachable.';
       setError(errMsg);
       addLog(`FATAL ERROR: ${errMsg}`, 'error');
       setStage(0);
@@ -280,13 +348,34 @@ function App() {
         </AnimatePresence>
       </main>
 
-      <div className={`fixed bottom-0 left-0 w-full z-50 transition-all duration-500 ${isTerminalOpen ? 'h-[30vh]' : 'h-10'}`}>
-        <button onClick={() => setIsTerminalOpen(!isTerminalOpen)} className="w-full h-10 bg-gray-900 dark:bg-gray-800 border-t border-gray-800 dark:border-white/10 flex items-center justify-between px-6">
-          <div className="flex items-center gap-2"><Activity size={14} className={loading ? 'animate-pulse text-primary' : 'text-gray-400'} /><span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Execution Terminal</span></div>
-          <ArrowRight size={16} className={`text-gray-500 transition-transform duration-300 ${isTerminalOpen ? 'rotate-90' : '-rotate-90'}`} />
+      <div 
+        style={{ height: isTerminalOpen ? `${terminalHeight}px` : '40px' }}
+        className={`fixed bottom-0 left-0 w-full z-50 transition-[height] duration-300 ease-out bg-black/95 backdrop-blur-2xl border-t border-white/5 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] flex flex-col`}
+      >
+        {/* Resize Handle */}
+        {isTerminalOpen && (
+          <div 
+            onMouseDown={() => setIsResizing(true)}
+            className="absolute top-0 left-0 w-full h-1 cursor-row-resize hover:bg-primary/50 transition-colors z-[60]"
+          />
+        )}
+
+        <button 
+          onClick={() => setIsTerminalOpen(!isTerminalOpen)} 
+          className="w-full h-10 bg-gray-900/50 dark:bg-gray-800/50 flex items-center justify-between px-6 shrink-0"
+        >
+          <div className="flex items-center gap-2">
+            <Activity size={14} className={loading ? 'animate-pulse text-primary' : 'text-gray-400'} />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Execution Terminal</span>
+          </div>
+          <div className="flex items-center gap-4">
+            {isTerminalOpen && <span className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Drag top edge to resize</span>}
+            <ArrowRight size={16} className={`text-gray-500 transition-transform duration-300 ${isTerminalOpen ? 'rotate-90' : '-rotate-90'}`} />
+          </div>
         </button>
-        <div className="h-full bg-black/95 backdrop-blur-2xl p-6 overflow-y-auto font-mono text-xs border-t border-white/5 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] text-left">
-          <div className="max-w-6xl mx-auto space-y-2">
+
+        <div className="flex-1 p-6 overflow-y-auto font-mono text-xs text-left custom-scrollbar">
+          <div className="max-w-6xl mx-auto space-y-2 pb-12">
             {logs.length === 0 && <p className="text-gray-600 italic">No execution data. Run an audit to begin monitoring...</p>}
             {logs.map((log, i) => (
               <div key={i} className="flex gap-4 animate-in fade-in slide-in-from-left-2 duration-300">
@@ -295,6 +384,13 @@ function App() {
                 <span className="text-gray-300 flex-1">{log.message}</span>
               </div>
             ))}
+            {loading && (
+              <div className="flex gap-4 animate-pulse">
+                <span className="text-gray-600">[{new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}]</span>
+                <span className="text-primary font-black">PROCESS:</span>
+                <span className="text-gray-500">Awaiting next signal...</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 [![Vercel](https://img.shields.io/badge/Frontend-Vercel-black?style=for-the-badge&logo=vercel)](https://devops-polyglot-auditor.vercel.app/)
 [![Render](https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge&logo=render)](https://devops-polyglot-auditor.onrender.com/health)
-[![AI](https://img.shields.io/badge/AI-Gemini_1.5_Flash-blue?style=for-the-badge&logo=google-gemini)](https://aistudio.google.com/)
+[![AI](https://img.shields.io/badge/AI-Gemini_2.5_Flash-blue?style=for-the-badge&logo=google-gemini)](https://aistudio.google.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 An **Ultra-Aesthetic**, AI-powered Infrastructure & Code Security Auditor. This tool performs deep architectural analysis on GitHub repositories, merging real-world containerized security scans with advanced AI-driven "Senior Engineer" reviews.
@@ -43,7 +43,7 @@ This tool is a fusion of three major DevOps concepts:
 | :--- | :--- |
 | **Frontend** | React 19, Tailwind CSS v3, Framer Motion, Lucide Icons, jsPDF |
 | **Backend** | Node.js, Express, Simple-Git, Child Process Orchestration |
-| AI Engine | Google Gemini 1.5 Flash (JSON Output Mode) |
+| AI Engine | Google Gemini 2.5 Flash (JSON Output Mode) |
 | **DevOps** | Docker, Trivy Security Scanner, GitHub REST API |
 
 ---
