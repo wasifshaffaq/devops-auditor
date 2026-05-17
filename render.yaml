@@ -24,17 +24,13 @@ services:
       - key: NODE_VERSION
         value: 20.0.0
 
-  # 3. The Engineering HUD (Frontend)
-  - type: web
+  # 3. The Engineering HUD (Frontend - Static Site)
+  - type: static
     name: auditor-hud
-    env: static
-    plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     rootDir: frontend
     envVars:
       - key: VITE_API_URL
-        # Note: For static sites, this is used during build.
-        # Since static sites are accessed via browser, they cannot use Render internal hostnames.
-        # You will likely need to set this to your public auditor-engine URL in the dashboard.
+        # Note: Static sites are browser-side, so we point to the public engine URL.
         value: https://auditor-engine.onrender.com
