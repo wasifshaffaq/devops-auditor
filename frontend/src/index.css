@@ -2,63 +2,107 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background: #020202;
+  --foreground: #F8F9FA;
+  --primary: #00A3FF;
+  --surface: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+}
+
 @layer base {
-  :root {
-    --background: 250 250 250;
-    --foreground: 10 10 10;
-    --card: 255 255 255;
-    --border: 230 230 230;
-  }
-
-  .dark {
-    --background: 5 5 5;
-    --foreground: 250 250 250;
-    --card: 15 15 15;
-    --border: 30 30 30;
-  }
-
   body {
-    @apply transition-colors duration-500 overflow-x-hidden;
-    background-color: rgb(var(--background));
-    color: rgb(var(--foreground));
     margin: 0;
+    padding: 0;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #020202;
+    color: #F8F9FA;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 }
 
-@layer utilities {
+@layer components {
   .glass {
-    @apply bg-opacity-60 backdrop-blur-xl border border-white/10;
-  }
-  
-  .dark .glass {
-    @apply bg-opacity-40 backdrop-blur-xl border border-white/5;
-  }
-
-  .bg-grid {
-    background-size: 40px 40px;
-    background-image: 
-      linear-gradient(to right, rgba(128, 128, 128, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
   }
 
-  .noise {
-    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    opacity: 0.03;
-    filter: contrast(150%) brightness(100%);
+  .btn-ultra {
+    height: 64px;
+    padding: 0 2.5rem;
+    border-radius: 9999px;
+    background-color: #00A3FF;
+    color: #000000;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 300ms ease;
+    box-shadow: 0 0 30px rgba(0, 163, 255, 0.3);
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-ultra:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(0, 163, 255, 0.5);
+  }
+
+  .btn-ultra:active {
+    transform: scale(0.95);
+  }
+
+  .btn-ultra-outline {
+    height: 40px;
+    padding: 0 1.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    backdrop-filter: blur(12px);
+    color: #F8F9FA;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 300ms ease;
+    cursor: pointer;
+  }
+
+  .btn-ultra-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .text-gradient {
+    background: linear-gradient(to bottom right, #FFFFFF, #FFFFFF, rgba(255, 255, 255, 0.4));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .neural-mask {
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+    mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
   }
 }
 
-.animate-blob {
-  animation: blob 7s infinite;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
 }
-
-@keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
 }
-
-.delay-2000 { animation-delay: 2s; }
-.delay-4000 { animation-delay: 4s; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}

@@ -22,7 +22,15 @@ const runAudit = async (req, res) => {
         res.write(`data: ${JSON.stringify({ type, message, data })}\n\n`);
     };
 
-    const cleanUrl = repoUrl.trim();
+    // Sanitize GitHub URLs to get the root repository URL
+    let cleanUrl = repoUrl.trim();
+    if (cleanUrl.includes('github.com') && cleanUrl.includes('/tree/')) {
+        cleanUrl = cleanUrl.split('/tree/')[0];
+    }
+    if (!cleanUrl.endsWith('.git') && !cleanUrl.includes('.git')) {
+        // Optional: Ensure .git suffix for clarity, though not strictly required by git clone
+    }
+
     const tempDir = path.join(os.tmpdir(), `audit-${Date.now()}`);
     
     try {

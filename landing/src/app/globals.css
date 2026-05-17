@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #020202;
+  --foreground: #F8F9FA;
+  --primary: #00A3FF;
+  --radius: 1.5rem;
+  --muted: rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --text-dim: rgba(255, 255, 255, 0.4);
+}
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-anonymous-pro);
+  --radius-soft: 24px;
+  --radius-pill: 999px;
+  --color-primary: #00A3FF;
+  --spacing-macro: 120px;
+  
+  --font-size-display: clamp(48px, 8vw, 92px);
+  --line-height-display: 1.1;
+  
+  --font-size-h2: clamp(32px, 5vw, 48px);
+  --line-height-h2: 1.2;
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    antialiased: true;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv03";
+    background-image: 
+      radial-gradient(circle at 50% -20%, oklch(0.2 0.1 250 / 0.15), transparent 80%),
+      radial-gradient(circle at 0% 100%, oklch(0.2 0.1 250 / 0.1), transparent 50%);
+  }
+}
+
+.glass {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+}
+
+.btn-ultra-primary {
+  height: 56px;
+  padding: 0 2rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--primary);
+  color: #000000;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(0, 163, 255, 0.3);
+}
+
+.btn-ultra-outline {
+  height: 56px;
+  padding: 0 2rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  background-color: var(--glass-bg);
+  color: var(--foreground);
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to bottom right, #FFFFFF, #FFFFFF, rgba(255, 255, 255, 0.4));
+}
+
+.neural-mask {
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+  mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+}

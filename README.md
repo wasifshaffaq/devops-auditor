@@ -1,85 +1,101 @@
-# 🛡️ DevOps Polyglot Auditor 🚀
+# 🌑 DevOps Polyglot Auditor v2.5
 
-[![Render](https://img.shields.io/badge/Backend-Render-46E3B7?style=for-the-badge&logo=render)](https://devops-polyglot-auditor.onrender.com/health)
-[![AI](https://img.shields.io/badge/AI-Gemini_2.5_Flash-blue?style=for-the-badge&logo=google-gemini)](https://aistudio.google.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+> **Architectural Intelligence for Modern DevOps.** An AI-powered security orchestrator that merges heuristic reasoning with deterministic container analysis.
 
-An AI-powered Infrastructure & Code Security Auditor. This engine performs deep architectural analysis on GitHub repositories, merging real-world containerized security scans with advanced AI-driven "Senior Engineer" reviews.
-
-[**Backend Health**](https://devops-polyglot-auditor.onrender.com/health)
+[![Gemini 2.5 Flash](https://img.shields.io/badge/AI-Gemini%202.5%20Flash-00A3FF?style=for-the-badge&logo=google-gemini)](https://deepmind.google/technologies/gemini/flash/)
+[![Trivy Engine](https://img.shields.io/badge/Scanner-Trivy-white?style=for-the-badge&logo=aquasecurity)](https://github.com/aquasecurity/trivy)
+[![Theme-Obsidian](https://img.shields.io/badge/Theme-Obsidian%20Dark-020202?style=for-the-badge)](https://github.com/wasifshaffaq/devops-polyglot-auditor)
 
 ---
 
-## ⚙️ Core Functionality
-The project features a high-performance auditing engine designed for DevOps professionals:
-
-- **💻 Real-Time Orchestration:** An asynchronous pipeline that mirrors professional CI/CD output, showing every step from cloning to AI analysis.
-- **🛡️ Hybrid Security Scanning:** Combines deterministic CVE scanning (Trivy) with heuristic architectural reviews (Gemini 2.5 Flash).
-- **🚀 Local-First Processing:** Optimized file analysis that reads directly from cloned repositories to bypass GitHub API rate limits.
-
----
-
-## 🛠️ Technical Architecture
-
-### The "Super-Hybrid" Logic
-This engine is a fusion of three major DevOps concepts:
-
-| Concept | Implementation in Polyglot Auditor |
-| :--- | :--- |
-| **Online Judge** | Uses **Docker Sandboxing** to run `Trivy` scans on submitted code. |
-| **CI/CD Simulator** | Features a **Granular Logging Stream** via Server-Sent Events (SSE). |
-| **Cloud Manager** | Uses AI to generate an **Infrastructure Preview** (S3, EC2, Docker). |
-
-### The Stack
-| Tier | Technology |
-| :--- | :--- |
-| **Core** | Node.js, Express, Simple-Git, Child Process Orchestration |
-| **AI Engine** | Google Gemini 2.5 Flash (JSON Output Mode) |
-| **DevOps** | Docker, Trivy Security Scanner, GitHub REST API |
+## 💎 The Engineering HUD
+The Auditor is presented through a bespoke, high-density **Command Center**. Designed for elite security operations, it features:
+- **Neural Archive:** Persistent local storage of previous scans.
+- **Live SSE Terminal:** Real-time execution logs with zero-latency streaming.
+- **Architectural Bento:** A 12-column grid layout for high-speed signal processing.
 
 ---
 
-## 🧠 Smart Environment Adaptation
-The auditor is built with **Production-Grade Resilience**. It detects its environment and adapts its feature set:
+## 🛠️ Technical Orchestration
+Polyglot Auditor doesn't just match patterns; it understands **infrastructure relationships**.
 
-```mermaid
-graph TD
-    A[Repository Submitted] --> B{Environment?}
-    B -- "Local (Docker Present)" --> C[Full Orchestration: AI + Real Trivy Scan]
-    B -- "Cloud (No Docker)" --> D[Cloud Mode: Deep AI Security Analysis]
-    C --> E[Merged Final Report]
-    D --> E[Merged Final Report]
+### 1. Volatile Memory Cloning
+Bypasses GitHub REST API limits by cloning repositories into temporary container RAM. This ensures **unlimited audit capacity** and deep-file access without rate-limiting hurdles.
+
+### 2. Multi-Layered Extraction
+Automatically prioritizes and extracts the top 15 most critical DevOps configuration files across any directory depth:
+- `Dockerfile` / `docker-compose.yml`
+- `.tf` (Terraform Modules)
+- `k8s/*.yaml` (Kubernetes Manifests)
+- `Jenkinsfile` / `.github/workflows`
+- `package.json` (Dependency Trees)
+
+### 3. Dual-Engine Reasoning
+- **Deterministic:** Integrated **Trivy Engine** performs deep container scanning for known CVEs and misconfigurations.
+- **Heuristic:** **Gemini 2.5 Flash** performs architectural post-mortems, identifying complex logic traps (e.g., RBAC escalation, IAM privilege chains) that standard scanners miss.
+
+---
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
+- **Node.js v20+**
+- **Docker** (For Trivy deterministic scanning)
+- **Gemini API Key** (Get it at [aistudio.google.com](https://aistudio.google.com/))
+
+### 2. Installation
+```bash
+# Clone the repository
+git clone https://github.com/wasifshaffaq/devops-polyglot-auditor
+cd devops-polyglot-auditor
+
+# Setup Environment
+echo "GEMINI_API_KEY=your_key_here" > backend/.env
+
+# Install Dependencies
+npm run install-all
+```
+
+### 3. Execution
+```bash
+# Start the Backend (Port 5001)
+npm run dev --prefix backend
+
+# Start the Landing Page (Port 3000)
+npm run dev --prefix landing
+
+# Start the Engineering HUD (Port 5173)
+npm run dev --prefix frontend
 ```
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-- **Node.js** (v18+)
-- **Docker Desktop** (Optional, required for real container scans)
-- **Gemini API Key** ([Get it free](https://aistudio.google.com/))
-
-### Quick Install
-1. **Clone the Repo:**
-   ```bash
-   git clone https://github.com/wasifshaffaq/devops-polyglot-auditor.git
-   ```
-2. **Backend Setup:**
-   ```bash
-   cd backend
-   npm install
-   # Add GEMINI_API_KEY to .env
-   npm run dev
-   ```
+## 🏛️ Project Architecture
+```text
+devops-polyglot-auditor/
+├── backend/          # Node.js / Express / Gemini 2.5 / Trivy
+├── frontend/         # React / Vite / Tailwind 3 (Engineering HUD)
+└── landing/          # Next.js 15 / Framer Motion / Tailwind 4 (Gateway)
+```
 
 ---
 
-## 📸 Portfolio Highlights
-- **Asynchronous Orchestration:** Handles parallel execution of AI logic and Docker processes without blocking.
-- **Logic Prioritization:** Custom file-depth sorting ensures the AI focuses on root configurations (`package.json`, `Dockerfile`) first.
-- **Zero-Budget Deployment:** Engineered to run on free-tier cloud infrastructure through intelligent feature fallbacks.
-- **Resilient AI Pipeline:** Built-in retry logic with exponential backoff for handling transient API network failures.
+## 🛡️ Security Posture
+This tool is built to crack the "tough" repos. It has been stress-tested against:
+- **CloudGoat:** Advanced AWS attack scenarios.
+- **K8s-Goat:** Complex Kubernetes RBAC chains.
+- **WrongSecrets:** Hidden path and logic-based secret exposure.
 
 ---
-Developed by **Wasif Shaffaq** | *DevOps & AI Enthusiast*
+
+## 👨‍💻 Engineered By
+**Wasif Shaffaq**  
+*Building Architectural Intelligence for the Cloud.*
+
+---
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wasifshaffaq/devops-polyglot-auditor/main/frontend/public/favicon.svg" width="60" alt="Logo" />
+  <br/>
+  <b>Obsidian v2.5 Flash</b>
+</p>

@@ -8,10 +8,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#0a0a0a",
-        foreground: "#ededed",
-        primary: "#3b82f6",
-        secondary: "#8b5cf6",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        primary: "var(--primary)",
+        surface: "var(--surface)",
+      },
+      borderRadius: {
+        'soft': '24px',
+        'pill': '999px',
+      },
+      animation: {
+        'scan': 'scan 3s linear infinite',
+      },
+      keyframes: {
+        scan: {
+          '0%': { top: '0%' },
+          '100%': { top: '100%' },
+        }
       }
     },
   },

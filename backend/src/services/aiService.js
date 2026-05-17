@@ -7,14 +7,15 @@ const analyzeDevOps = async (files, onLog = () => {}) => {
         throw new Error('Invalid or missing GEMINI_API_KEY in .env file.');
     }
 
-    const MAX_RETRIES = 3;
+    const MAX_RETRIES = 5;
     let lastError = null;
 
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
         try {
             if (attempt > 1) {
-                onLog(`Retry attempt ${attempt}/${MAX_RETRIES}...`, 'warn');
-                await new Promise(resolve => setTimeout(resolve, 2000 * attempt)); // Backoff
+                const backoff = (lastError?.message?.includes('429')) ? 15000 * (attempt - 1) : 3000 * attempt;
+                onLog(`Rate limit detected or error occurred. Retry attempt ${attempt}/${MAX_RETRIES} in ${backoff/1000}s...`, 'warn');
+                await new Promise(resolve => setTimeout(resolve, backoff));
             }
 
             onLog(`Preparing context with ${files.length} configuration files (Attempt ${attempt})...`, 'process');
@@ -48,9 +49,15 @@ const analyzeDevOps = async (files, onLog = () => {}) => {
             let text = response.text();
 
             onLog('AI analysis complete. Processing results...', 'process');
-            text = text.replace(/```json\n?/, '').replace(/\n?```/, '').trim();
+            // More robust JSON extraction from markdown blocks if they exist
+            let jsonString = text;
+            const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+            if (jsonMatch) {
+                jsonString = jsonMatch[1];
+            }
+            jsonString = jsonString.trim();
 
-            return JSON.parse(text);
+            return JSON.parse(jsonString);
 
         } catch (error) {
             lastError = error;
