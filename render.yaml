@@ -4,7 +4,7 @@ services:
     name: auditor-engine
     env: docker
     dockerContext: backend
-    dockerfilePath: backend/Dockerfile
+    dockerfilePath: Dockerfile
     plan: free
     envVars:
       - key: GEMINI_API_KEY
@@ -30,11 +30,11 @@ services:
     env: static
     plan: free
     buildCommand: npm install && npm run build
-    publishDir: frontend/dist
+    staticPublishPath: dist
     rootDir: frontend
     envVars:
       - key: VITE_API_URL
-        fromService:
-          name: auditor-engine
-          type: web
-          property: host
+        # Note: For static sites, this is used during build.
+        # Since static sites are accessed via browser, they cannot use Render internal hostnames.
+        # You will likely need to set this to your public auditor-engine URL in the dashboard.
+        value: https://auditor-engine.onrender.com
