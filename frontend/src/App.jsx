@@ -152,7 +152,7 @@ function App() {
       <NeuralCanvas />
 
       {/* --- COLUMN 1: THE VAULT (Left Sidebar) --- */}
-      <aside className="w-[300px] h-full glass border-r border-white/5 flex flex-col z-50 transition-colors duration-500">
+      <aside className="w-[300px] h-full glass border-r border-white/5 flex flex-col z-50 transition-colors duration-500 bg-black/60">
         <div className="p-8 pb-4 text-white">
            <div className="flex items-center gap-4 mb-10">
              <div className="w-10 h-10 bg-[#00A3FF] flex items-center justify-center rounded-full shadow-[0_0_20px_rgba(0,163,255,0.4)]">
@@ -194,7 +194,7 @@ function App() {
           ))}
         </div>
 
-        <div className="p-10 border-t border-white/5 bg-black/40">
+        <div className="p-10 border-t border-white/5 bg-black/80">
            <div className="flex items-center gap-4 text-white/40 mb-2">
               <Activity size={16} className="animate-pulse text-[#00A3FF]" />
               <span className="text-[10px] font-bold uppercase tracking-widest">Engine Active</span>
@@ -204,9 +204,9 @@ function App() {
       </aside>
 
       {/* --- COLUMN 2: COMMAND CENTER (Middle Workspace) --- */}
-      <main className="flex-1 h-full flex flex-col z-10 relative overflow-hidden">
+      <main className="flex-1 h-full flex flex-col z-10 relative overflow-hidden bg-[#020202]">
         {/* Top Header */}
-        <header className="h-[80px] border-b border-white/5 px-10 flex items-center justify-between shrink-0 bg-black/20 backdrop-blur-md">
+        <header className="h-[80px] border-b border-white/5 px-10 flex items-center justify-between shrink-0 bg-black/40 backdrop-blur-md">
            <div className="flex items-center gap-10 text-white">
              <div className="flex items-center gap-4">
                <span className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-40">System</span>
@@ -219,7 +219,6 @@ function App() {
            </div>
 
            <div className="flex items-center gap-8">
-             {/* Back to Home Button */}
              <a 
                href="http://localhost:3000" 
                className="flex items-center gap-3 px-6 py-2.5 rounded-full border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] transition-all group"
@@ -254,7 +253,7 @@ function App() {
                     <Search className="ml-8 text-white/20" size={24} />
                     <input
                       type="text" placeholder="PASTE REPOSITORY URL..."
-                      className="flex-1 bg-transparent px-6 py-6 text-lg focus:outline-none font-bold placeholder:text-white/10 text-white tracking-widest uppercase"
+                      className="flex-1 bg-transparent px-6 py-6 text-xl focus:outline-none font-bold placeholder:text-white/10 text-white tracking-widest uppercase"
                       value={repoUrl} onChange={(e) => setRepoUrl(e.target.value)}
                     />
                     <button type="submit" className="btn-ultra mr-1 h-[64px] px-10 text-sm">RUN ENGINE</button>
@@ -271,7 +270,7 @@ function App() {
                </div>
                <div className="text-center space-y-4">
                   <h3 className="text-2xl font-bold tracking-[0.4em] uppercase text-gradient animate-pulse">Orchestrating Audit</h3>
-                  <div className="flex justify-center gap-8 px-12">
+                  <div className="flex justify-center gap-12 px-16">
                     <PipelineStatus label="Cloning" active={stage >= 1} />
                     <PipelineStatus label="Scanning" active={stage >= 2} />
                     <PipelineStatus label="Reasoning" active={stage >= 3} />
@@ -283,7 +282,7 @@ function App() {
           {auditData && (
             <div className="grid grid-cols-12 gap-8 pb-40 text-white">
                {/* 1. SCORE CARD (Grid 1-4) */}
-               <SpotlightCard containerClassName="col-span-12 lg:col-span-4 aspect-square flex flex-col items-center justify-center relative overflow-hidden">
+               <SpotlightCard containerClassName="col-span-12 lg:col-span-4 aspect-square flex flex-col items-center justify-center relative overflow-hidden bg-[#080808]">
                   <div className="absolute inset-0 bg-grid-white/[0.02] [mask-image:radial-gradient(ellipse_at_center,black_70%,transparent)]"></div>
                   <div className="relative z-10 text-center">
                     <h2 className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 mb-8">Security Posture</h2>
@@ -292,12 +291,11 @@ function App() {
                     </div>
                     <div className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#00A3FF] mt-4">Verified Intelligence</div>
                   </div>
-                  {/* Scan line effect */}
                   <div className="absolute left-0 w-full h-[2px] bg-[#00A3FF]/20 shadow-[0_0_15px_#00A3FF] animate-scan top-0 pointer-events-none opacity-40"></div>
                </SpotlightCard>
 
                {/* 2. SUMMARY (Grid 5-12) */}
-               <SpotlightCard containerClassName="col-span-12 lg:col-span-8 p-12 text-white">
+               <SpotlightCard containerClassName="col-span-12 lg:col-span-8 p-12 bg-[#080808] flex flex-col justify-center">
                   <div className="flex justify-between items-start mb-10 text-white">
                      <div className="space-y-2">
                         <h2 className="text-2xl font-bold tracking-tighter uppercase underline underline-offset-[16px] decoration-[#00A3FF] decoration-4">Executive Summary</h2>
@@ -307,7 +305,7 @@ function App() {
                         <Download size={14} className="mr-2" /> Export PDF
                      </button>
                   </div>
-                  <p className="text-xl text-white/60 leading-relaxed font-medium">
+                  <p className="text-xl text-white/80 leading-relaxed font-medium">
                     {auditData.summary}
                   </p>
                </SpotlightCard>
@@ -321,7 +319,7 @@ function App() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {auditData.infrastructure?.map((res, i) => (
-                      <div key={i} className="p-6 rounded-soft border border-white/5 bg-white/[0.01] hover:bg-white/[0.04] transition-all">
+                      <div key={i} className="p-6 rounded-soft border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-all">
                         <div className="flex justify-between items-start mb-8 text-white">
                            <span className="text-[10px] font-bold uppercase tracking-widest opacity-30">{res.type}</span>
                            <div className={`h-2 w-2 rounded-full ${res.status.toLowerCase().includes('risk') ? 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]' : 'bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]'}`}></div>
@@ -335,14 +333,14 @@ function App() {
 
                {/* 4. FINDINGS & NEXT STEPS */}
                <div className="col-span-12 lg:col-span-7 mt-10">
-                  <div className="flex items-center gap-4 mb-8 text-red-500">
+                  <div className="flex items-center gap-6 mb-8 text-red-500">
                      <AlertCircle size={24} />
                      <h2 className="text-lg font-bold tracking-widest uppercase">Threat Vectors</h2>
                      <div className="h-[1px] flex-1 bg-red-500/10"></div>
                   </div>
                   <div className="space-y-6">
                     {auditData.vulnerabilities.map((v, i) => (
-                      <SpotlightCard key={i} containerClassName={`border-l-4 ${v.severity === 'high' ? 'border-l-red-500' : 'border-l-amber-500'} p-8 bg-black/20`}>
+                      <SpotlightCard key={i} containerClassName={`border-l-4 ${v.severity === 'high' ? 'border-l-red-500' : 'border-l-amber-500'} p-8 bg-[#080808]`}>
                          <div className="flex justify-between items-start gap-8">
                             <div className="flex-1 overflow-hidden">
                                <div className="flex items-center gap-4 mb-4 text-white">
@@ -350,7 +348,7 @@ function App() {
                                   <span className={`text-[9px] font-bold uppercase tracking-widest ${v.severity === 'high' ? 'text-red-500' : 'text-amber-500'}`}>{v.severity} Priority</span>
                                </div>
                                <h3 className="text-xl font-bold uppercase tracking-tight mb-3 leading-tight text-white">{v.issue}</h3>
-                               <p className="text-xs font-mono text-white/30 truncate select-all">{v.file}</p>
+                               <p className="text-xs font-mono text-white/40 truncate select-all">{v.file}</p>
                             </div>
                             <div className={`p-4 rounded-xl ${v.severity === 'high' ? 'bg-red-500/10 text-red-500' : 'bg-amber-500/10 text-amber-500'}`}>
                                <Shield size={24} />
@@ -367,11 +365,11 @@ function App() {
                      <h2 className="text-lg font-bold tracking-widest uppercase text-white">The Battle Plan</h2>
                      <div className="h-[1px] flex-1 bg-[#00A3FF]/10"></div>
                   </div>
-                  <div className="glass p-10 rounded-soft space-y-10 border border-white/5 text-white">
+                  <div className="glass p-10 rounded-soft space-y-10 border border-white/5 text-white bg-black/40">
                     {auditData.recommendations.map((rec, i) => (
                       <div key={i} className="flex gap-6 items-start group">
                          <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center font-bold text-sm text-[#00A3FF] group-hover:bg-[#00A3FF]/10 transition-colors shrink-0">0{i+1}</div>
-                         <p className="flex-1 text-sm font-medium text-white/50 leading-relaxed group-hover:text-white transition-colors break-words overflow-hidden text-white">{rec}</p>
+                         <p className="flex-1 text-sm font-medium text-white/60 leading-relaxed group-hover:text-white transition-colors break-words overflow-hidden text-white">{rec}</p>
                       </div>
                     ))}
                   </div>
@@ -381,7 +379,7 @@ function App() {
         </div>
 
         {/* Global Technical Branding */}
-        <div className="h-[40px] px-10 border-t border-white/5 flex items-center justify-between bg-black/40 shrink-0 z-50">
+        <div className="h-[40px] px-10 border-t border-white/5 flex items-center justify-between bg-black/80 shrink-0 z-50">
            <p className="text-[9px] font-bold uppercase tracking-[0.6em] text-white/20">Secured Architecture v2.5</p>
            <div className="flex gap-10 text-[9px] font-bold uppercase tracking-[0.4em] text-white/10">
               <span>Security Hub</span>
@@ -416,7 +414,7 @@ function App() {
         <div className="flex-1 overflow-y-auto p-10 font-mono text-[11px] custom-scrollbar selection:bg-[#00A3FF]/50 selection:text-black">
           <div className="space-y-4 pb-20 text-white">
             {logs.length === 0 && (
-              <div className="h-full flex flex-col items-center justify-center opacity-30 space-y-6 py-20">
+              <div className="h-full flex flex-col items-center justify-center opacity-30 space-y-6 py-20 text-white">
                 <div className="relative">
                   <Activity size={48} className="text-[#00A3FF] animate-pulse" />
                   <div className="absolute inset-0 bg-[#00A3FF]/20 blur-xl rounded-full" />

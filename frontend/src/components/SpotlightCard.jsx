@@ -19,7 +19,7 @@ export const SpotlightCard = ({
 
   return (
     <div
-      className={`group relative rounded-soft border border-foreground/10 bg-surface transition-colors duration-500 ${containerClassName}`}
+      className={`group relative rounded-soft border border-white/5 bg-[#080808] transition-colors duration-500 overflow-hidden ${containerClassName}`}
       onMouseMove={handleMouseMove}
     >
       <motion.div
@@ -28,7 +28,7 @@ export const SpotlightCard = ({
           background: useMotionTemplate`
             radial-gradient(
               600px circle at ${mouseX}px ${mouseY}px,
-              rgba(0, 163, 255, 0.1),
+              rgba(0, 163, 255, 0.15),
               transparent 80%
             )
           `,
