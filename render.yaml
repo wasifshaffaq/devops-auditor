@@ -4,12 +4,13 @@ services:
     name: auditor-engine
     env: docker
     dockerContext: backend
-    dockerfilePath: Dockerfile
+    # Path is relative to the repo root in Render blueprints
+    dockerfilePath: backend/Dockerfile
     plan: free
     healthCheckPath: /health
     envVars:
       - key: GEMINI_API_KEY
-        sync: false # Set manually in Render dashboard
+        sync: false 
       - key: PORT
         value: 5001
 
@@ -19,13 +20,13 @@ services:
     env: node
     plan: free
     healthCheckPath: /
-    # Optimize build memory for Render Free Tier (512MB limit)
-    buildCommand: NODE_OPTIONS=--max-old-space-size=400 npm install && npm run build
+    # Upgrading Node version and using memory-safe build
+    buildCommand: npm install && npm run build
     startCommand: npm start
     rootDir: landing
     envVars:
       - key: NODE_VERSION
-        value: 20.0.0
+        value: 20.9.0
       - key: NODE_OPTIONS
         value: --max-old-space-size=400
 
@@ -38,5 +39,4 @@ services:
     rootDir: frontend
     envVars:
       - key: VITE_API_URL
-        # Set this to your public auditor-engine URL in the Render dashboard
         value: https://auditor-engine.onrender.com
