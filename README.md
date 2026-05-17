@@ -1,82 +1,123 @@
-# 🌑 DevOps Polyglot Auditor v2.5
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wasifshaffaq/devops-auditor/master/frontend/public/favicon.svg" width="120" alt="DevOps Polyglot Auditor Logo" />
+</p>
 
-> **Architectural Intelligence for Modern DevOps.** An AI-powered security orchestrator that merges heuristic reasoning with deterministic container analysis.
+<h1 align="center">🌑 DevOps Polyglot Auditor v2.5</h1>
 
-[![Gemini 2.5 Flash](https://img.shields.io/badge/AI-Gemini%202.5%20Flash-00A3FF?style=for-the-badge&logo=google-gemini)](https://deepmind.google/technologies/gemini/flash/)
-[![Trivy Engine](https://img.shields.io/badge/Scanner-Trivy-white?style=for-the-badge&logo=aquasecurity)](https://github.com/aquasecurity/trivy)
-[![Theme-Obsidian](https://img.shields.io/badge/Theme-Obsidian%20Dark-020202?style=for-the-badge)](https://github.com/wasifshaffaq/devops-auditor)
+<p align="center">
+  <strong>Architectural Intelligence for Modern DevOps.</strong><br>
+  Merging heuristic AI reasoning with deterministic container analysis into a single, motion-heavy Engineering HUD.
+</p>
 
----
-
-## 💎 The Engineering HUD
-The Auditor is presented through a bespoke, high-density **Command Center**. Designed for elite security operations, it features:
-- **Neural Archive:** Persistent local storage of previous scans.
-- **Live SSE Terminal:** Real-time execution logs with zero-latency streaming.
-- **Architectural Bento:** A 12-column grid layout for high-speed signal processing.
-
----
-
-## ☁️ Cloud Ready (V2.5 Transformation)
-The Polyglot Auditor is now fully **Containerized** and **Cloud-Compatible**.
-- **Universal Backend:** Bundled with Node.js and the **Trivy binary** via Docker.
-- **Render Ready:** Includes `render.yaml` for one-click orchestration.
-- **Vercel/Netlify Ready:** Frontend and Landing Page are optimized for static and edge deployment.
+<p align="center">
+  <a href="https://deepmind.google/technologies/gemini/flash/"><img src="https://img.shields.io/badge/AI-Gemini%202.5%20Flash-00A3FF?style=for-the-badge&logo=google-gemini" alt="Gemini 2.5 Flash"></a>
+  <a href="https://github.com/aquasecurity/trivy"><img src="https://img.shields.io/badge/Scanner-Trivy-white?style=for-the-badge&logo=aquasecurity" alt="Trivy Engine"></a>
+  <a href="#-the-obsidian-theme"><img src="https://img.shields.io/badge/Theme-Obsidian%20Dark-020202?style=for-the-badge" alt="Obsidian Theme"></a>
+  <a href="https://github.com/wasifshaffaq/devops-auditor/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License"></a>
+</p>
 
 ---
 
-## 🛠️ Technical Orchestration
-Polyglot Auditor doesn't just match patterns; it understands **infrastructure relationships**.
-
-1. **Volatile Memory Cloning:** Bypasses GitHub API limits by cloning repositories into temporary container RAM.
-2. **Multi-Layered Extraction:** Automatically prioritizes `Dockerfile`, `.tf`, `k8s/*.yaml`, and `package.json`.
-3. **Dual-Engine Reasoning:** Combines **Trivy** (Deterministic CVEs) with **Gemini 2.5 Flash** (Heuristic Logic Traps).
+## ⚡ The "Aha!" Moment
+> [!TIP]
+> Traditional scanners find CVEs. Polyglot Auditor finds **Logic Traps**. 
+> While other tools tell you your package is out of date, our engine detects if your user has the subtle permissions to delete your entire production cluster.
 
 ---
 
-## 🚀 Absolute Noob Guide (Step-by-Step Setup)
+## 💎 Core Intelligence
+Polyglot Auditor doesn't just scan; it **orchestrates**. It combines two world-class engines into a high-density "Engineering HUD."
 
-Welcome! If you've never run a technical project like this before, follow these steps exactly.
+### 🧠 Heuristic Reasoning (Gemini 2.5 Flash)
+- **Deep Architectural Context:** Understands relationships between Terraform, Kubernetes, and Docker.
+- **Privilege Escalation Detection:** Spots "sneaky" IAM and RBAC chains that pattern-matchers miss.
+- **Natural Language remediation:** Provides specific, actionable "Battle Plans" instead of generic error codes.
 
-### 1. Install the Foundations
-You need these pieces of software installed on your computer:
-1. **Node.js (v20 or higher):** Download and install from [nodejs.org](https://nodejs.org/).
-2. **Git:** Download and install from [git-scm.com](https://git-scm.com/).
-3. **Docker Desktop:** Required for *local* deterministic scans. Download from [docker.com](https://www.docker.com/products/docker-desktop/).
+### 🛡️ Deterministic Scanning (Trivy Engine)
+- **Container Security:** Deep OS-level vulnerability detection for Docker images.
+- **Dependency Trees:** Scans your `package.json` for known high-priority CVEs.
+- **Zero-False Positives:** Hard-coded security signals verified against the Aquasecurity database.
 
-### 2. Get Your AI Brain (Gemini API Key)
-1. Go to [Google AI Studio](https://aistudio.google.com/).
-2. Click **"Get API Key"** and copy it.
+---
 
-### 3. Clone the Project
-Open your computer's **Terminal** and type:
+## 📊 Comparison Matrix
+| Feature | Polyglot Auditor | Standard Static Scanners |
+| :--- | :---: | :---: |
+| **Logic Trap Detection** | ✅ Yes | ❌ No |
+| **Heuristic Reasoning** | ✅ Yes | ❌ No |
+| **Real-time SSE Logs** | ✅ Yes | ❌ No |
+| **Cloud-First (No API Limits)** | ✅ Yes | ⚠️ Limited |
+| **Obsidian Dark Mode HUD** | ✅ Yes | ❌ No |
+
+---
+
+## 🏗️ The Neural Pipeline
+```mermaid
+graph LR
+    A[GitHub Repo] -->|Volatile Clone| B[Local Memory]
+    B --> C{Prioritizer}
+    C -->|Top 15 Files| D[Gemini 2.5 Flash]
+    C -->|Local Path| E[Trivy Binary]
+    D --> F[Security Signals]
+    E --> F
+    F -->|SSE Stream| G[Engineering HUD]
+    G --> H[Actionable Battle Plan]
+```
+
+---
+
+## 🚀 Quick Start (60 Seconds)
+
+> [!IMPORTANT]
+> This project requires **Docker Desktop** to be running for deterministic scans.
+
+### 1. The Foundations
 ```bash
+# Clone the repository
 git clone https://github.com/wasifshaffaq/devops-auditor
 cd devops-auditor
+
+# Setup Environment (Add your Gemini Key)
+echo "GEMINI_API_KEY=your_key_here" > backend/.env
+
+# Install the Ecosystem
+npm run install-all
 ```
 
-### 4. Configure & Install
-1. In the `backend` folder, create a file named `.env` and add: `GEMINI_API_KEY=your_key_here`.
-2. In the main folder, run:
-```bash
-npm install && npm install --prefix backend && npm install --prefix frontend && npm install --prefix landing
-```
-
-### 5. Launch the System (3 Terminal Windows)
-- **Terminal 1:** `cd backend && npm start`
-- **Terminal 2:** `cd landing && npm run dev`
-- **Terminal 3:** `cd frontend && npm run dev`
+### 2. Ignition
+Open 3 terminal windows and run:
+1. `cd backend && npm start`
+2. `cd landing && npm run dev`
+3. `cd frontend && npm run dev`
 
 ---
 
-## 🌐 Cloud Deployment (Render One-Click)
-To host this permanently in the cloud:
-1. Push this code to your own GitHub repository.
-2. Connect your repository to **Render.com**.
-3. Render will automatically detect the `render.yaml` file and set up:
-   - **Backend:** As a Docker Web Service.
-   - **Landing Page:** As a Node.js Service.
-   - **HUD:** As a Static Site.
-4. **Crucial:** Add your `GEMINI_API_KEY` in the Render dashboard for the `auditor-engine` service.
+## 🗺️ Detailed Setup (For Absolute Beginners)
+
+<details>
+<summary><b>Click to expand the Full Noob Guide</b></summary>
+
+### 1. Software You Need
+- **Node.js (v20+):** From [nodejs.org](https://nodejs.org/)
+- **Git:** From [git-scm.com](https://git-scm.com/)
+- **Docker Desktop:** From [docker.com](https://www.docker.com/)
+
+### 2. Get Your API Key
+1. Visit [Google AI Studio](https://aistudio.google.com/).
+2. Click **"Get API Key"**.
+3. Copy it and paste it into `backend/.env` like this: `GEMINI_API_KEY=AIza...`
+
+### 3. Launch & Audit
+Visit `http://localhost:3000`, click **START AUDIT**, and paste any repository link.
+</details>
+
+---
+
+## 🌐 Cloud Architecture
+The suite is now **fully containerized** and **Render-Ready**.
+- **`auditor-engine`:** Dockerized Node.js + Trivy Binary.
+- **`auditor-gateway`:** Next.js 15 (Optimized for Free Tier).
+- **`auditor-hud`:** Static React HUD.
 
 ---
 
@@ -87,7 +128,6 @@ To host this permanently in the cloud:
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wasifshaffaq/devops-auditor/master/frontend/public/favicon.svg" width="60" alt="Logo" />
-  <br/>
-  <b>Obsidian v2.5 Flash</b>
+  <b>Obsidian v2.5 Flash</b><br>
+  <img src="https://raw.githubusercontent.com/wasifshaffaq/devops-auditor/master/frontend/public/favicon.svg" width="40" alt="Footer Logo" />
 </p>
