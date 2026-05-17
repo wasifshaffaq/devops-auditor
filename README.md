@@ -19,72 +19,85 @@ The Auditor is presented through a bespoke, high-density **Command Center**. Des
 ## 🛠️ Technical Orchestration
 Polyglot Auditor doesn't just match patterns; it understands **infrastructure relationships**.
 
-### 1. Volatile Memory Cloning
-Bypasses GitHub REST API limits by cloning repositories into temporary container RAM. This ensures **unlimited audit capacity** and deep-file access without rate-limiting hurdles.
-
-### 2. Multi-Layered Extraction
-Automatically prioritizes and extracts the top 15 most critical DevOps configuration files across any directory depth:
-- `Dockerfile` / `docker-compose.yml`
-- `.tf` (Terraform Modules)
-- `k8s/*.yaml` (Kubernetes Manifests)
-- `Jenkinsfile` / `.github/workflows`
-- `package.json` (Dependency Trees)
-
-### 3. Dual-Engine Reasoning
-- **Deterministic:** Integrated **Trivy Engine** performs deep container scanning for known CVEs and misconfigurations.
-- **Heuristic:** **Gemini 2.5 Flash** performs architectural post-mortems, identifying complex logic traps (e.g., RBAC escalation, IAM privilege chains) that standard scanners miss.
+1. **Volatile Memory Cloning:** Bypasses GitHub API limits by cloning repositories into temporary container RAM.
+2. **Multi-Layered Extraction:** Automatically prioritizes `Dockerfile`, `.tf`, `k8s/*.yaml`, and `package.json`.
+3. **Dual-Engine Reasoning:** Combines **Trivy** (Deterministic CVEs) with **Gemini 2.5 Flash** (Heuristic Logic Traps).
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Absolute Noob Guide (Step-by-Step Setup)
 
-### 1. Prerequisites
-- **Node.js v20+**
-- **Docker** (For Trivy deterministic scanning)
-- **Gemini API Key** (Get it at [aistudio.google.com](https://aistudio.google.com/))
+Welcome! If you've never run a technical project like this before, follow these steps exactly.
 
-### 2. Installation
+### 1. Install the Foundations
+You need three pieces of software installed on your computer:
+1. **Node.js (v20 or higher):** Download and install the "LTS" version from [nodejs.org](https://nodejs.org/).
+2. **Git:** Download and install from [git-scm.com](https://git-scm.com/).
+3. **Docker Desktop:** Download and install from [docker.com](https://www.docker.com/products/docker-desktop/). *Make sure Docker is running before you start the audit.*
+
+### 2. Get Your AI Brain (Gemini API Key)
+1. Go to [Google AI Studio](https://aistudio.google.com/).
+2. Sign in with your Google account.
+3. Click **"Get API Key"** on the left sidebar.
+4. Copy your key. **Keep it secret!**
+
+### 3. Clone the Project
+Open your computer's **Terminal** (or Command Prompt) and type these commands:
 ```bash
 # Clone the repository
 git clone https://github.com/wasifshaffaq/devops-polyglot-auditor
 cd devops-polyglot-auditor
-
-# Setup Environment
-echo "GEMINI_API_KEY=your_key_here" > backend/.env
-
-# Install Dependencies
-npm run install-all
 ```
 
-### 3. Execution
+### 4. Configure the Backend
+We need to tell the app your API key:
+1. Navigate into the `backend` folder.
+2. Create a new file named `.env`.
+3. Open `.env` in a text editor and paste this line (replace `your_key_here` with your actual key):
+```text
+GEMINI_API_KEY=your_key_here
+```
+
+### 5. Install Everything
+Run this command from the **root directory** (the main `devops-polyglot-auditor` folder):
 ```bash
-# Start the Backend (Port 5001)
-npm run dev --prefix backend
-
-# Start the Landing Page (Port 3000)
-npm run dev --prefix landing
-
-# Start the Engineering HUD (Port 5173)
-npm run dev --prefix frontend
+# This installs dependencies for the Backend, Landing Page, and HUD all at once
+npm install && npm install --prefix backend && npm install --prefix frontend && npm install --prefix landing
 ```
+
+### 6. Launch the System
+You need to open **3 separate terminal windows** to keep all parts of the app running:
+
+*   **Terminal 1 (The Engine):**
+    ```bash
+    cd backend
+    npm start
+    ```
+*   **Terminal 2 (The Gateway):**
+    ```bash
+    cd landing
+    npm run dev
+    ```
+*   **Terminal 3 (The Auditor HUD):**
+    ```bash
+    cd frontend
+    npm run dev
+    ```
+
+### 7. Start Auditing
+1. Open your browser to `http://localhost:3000`.
+2. Click **START AUDIT**.
+3. Paste a GitHub link (e.g., `https://github.com/bridgecrewio/terragoat`) and hit **RUN ENGINE**.
 
 ---
 
 ## 🏛️ Project Architecture
 ```text
 devops-polyglot-auditor/
-├── backend/          # Node.js / Express / Gemini 2.5 / Trivy
-├── frontend/         # React / Vite / Tailwind 3 (Engineering HUD)
-└── landing/          # Next.js 15 / Framer Motion / Tailwind 4 (Gateway)
+├── backend/          # The Engine (Port 5001)
+├── frontend/         # The Engineering HUD (Port 5173)
+└── landing/          # The Marketing Gateway (Port 3000)
 ```
-
----
-
-## 🛡️ Security Posture
-This tool is built to crack the "tough" repos. It has been stress-tested against:
-- **CloudGoat:** Advanced AWS attack scenarios.
-- **K8s-Goat:** Complex Kubernetes RBAC chains.
-- **WrongSecrets:** Hidden path and logic-based secret exposure.
 
 ---
 
@@ -95,7 +108,7 @@ This tool is built to crack the "tough" repos. It has been stress-tested against
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wasifshaffaq/devops-polyglot-auditor/main/frontend/public/favicon.svg" width="60" alt="Logo" />
+  <img src="https://raw.githubusercontent.com/wasifshaffaq/devops-polyglot-auditor/master/frontend/public/favicon.svg" width="60" alt="Logo" />
   <br/>
   <b>Obsidian v2.5 Flash</b>
 </p>
