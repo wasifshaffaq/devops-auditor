@@ -1,13 +1,18 @@
-# --- Stage 1: Build & Runtime ---
-FROM node:20-slim
+# --- Stage 1: Get Trivy Binary ---
+FROM aquasec/trivy:0.51.1 AS trivy-provider
 
-# Install system dependencies and Trivy
+# --- Stage 2: Application Runtime ---
+FROM node:20.9-slim
+
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
     git \
-    && curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.51.1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Copy Trivy binary from the provider stage
+COPY --from=trivy-provider /usr/local/bin/trivy /usr/local/bin/trivy
 
 # Create application directory
 WORKDIR /app
@@ -19,7 +24,7 @@ RUN npm install --production
 # Copy application source code
 COPY . .
 
-# Set environment defaults (can be overridden)
+# Set environment defaults
 ENV PORT=5001
 ENV NODE_ENV=production
 

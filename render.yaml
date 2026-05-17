@@ -4,7 +4,6 @@ services:
     name: auditor-engine
     env: docker
     dockerContext: backend
-    # Path is relative to the repo root in Render blueprints
     dockerfilePath: backend/Dockerfile
     plan: free
     healthCheckPath: /health
@@ -20,7 +19,7 @@ services:
     env: node
     plan: free
     healthCheckPath: /
-    # Upgrading Node version and using memory-safe build
+    # Added NEXT_TELEMETRY_DISABLED to save resources and ensuring build memory
     buildCommand: npm install && npm run build
     startCommand: npm start
     rootDir: landing
@@ -29,6 +28,8 @@ services:
         value: 20.9.0
       - key: NODE_OPTIONS
         value: --max-old-space-size=400
+      - key: NEXT_TELEMETRY_DISABLED
+        value: 1
 
   # 3. The Engineering HUD (Frontend) - Static Site
   - type: web
