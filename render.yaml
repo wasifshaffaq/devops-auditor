@@ -1,30 +1,35 @@
 services:
-  # 1. The Engine (Backend)
+  # 1. The Engine (Backend) - Docker Service
   - type: web
     name: auditor-engine
     env: docker
     dockerContext: backend
     dockerfilePath: Dockerfile
     plan: free
+    healthCheckPath: /health
     envVars:
       - key: GEMINI_API_KEY
         sync: false # Set manually in Render dashboard
       - key: PORT
         value: 5001
 
-  # 2. The Marketing Gateway (Landing Page)
+  # 2. The Marketing Gateway (Landing Page) - Next.js
   - type: web
     name: auditor-gateway
     env: node
     plan: free
-    buildCommand: npm install && npm run build
+    healthCheckPath: /
+    # Optimize build memory for Render Free Tier (512MB limit)
+    buildCommand: NODE_OPTIONS=--max-old-space-size=400 npm install && npm run build
     startCommand: npm start
     rootDir: landing
     envVars:
       - key: NODE_VERSION
         value: 20.0.0
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=400
 
-  # 3. The Engineering HUD (Frontend - Static Site)
+  # 3. The Engineering HUD (Frontend) - Static Site
   - type: web
     name: auditor-hud
     env: static
@@ -33,5 +38,5 @@ services:
     rootDir: frontend
     envVars:
       - key: VITE_API_URL
-        # Note: Static sites are browser-side, so we point to the public engine URL.
+        # Set this to your public auditor-engine URL in the Render dashboard
         value: https://auditor-engine.onrender.com
